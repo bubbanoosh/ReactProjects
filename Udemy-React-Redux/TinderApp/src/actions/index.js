@@ -8,4 +8,5 @@ export function selectBook(book) {
         type: 'BOOK_SELECTED',
         payload: book
     };
+    //console.log('Book selected:', book.title);
 }

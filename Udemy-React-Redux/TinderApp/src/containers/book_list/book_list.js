@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'; // The Glue
 
+// Import action creators & BIND
 import { selectBook } from '../../actions/index';
 import { bindActionCreators } from 'redux';
 
@@ -11,7 +12,7 @@ class BookList extends Component {
             return (
                 <li
                     key={book.title}
-                    onClick={(book) => { this.props.selectBook(book) }}
+                    onClick={(book) => this.props.selectBook(book) }
                     className="list-group-item">
                     {book.title}
                 </li>
@@ -42,7 +43,7 @@ function mapDispatchToProps(dispatch) {
     // to all of our reducers
     return bindActionCreators({
         selectBook: selectBook
-    }, dispatch);
+    }, dispatch)
 }
 
 //Take the component and the mapStateToProps
