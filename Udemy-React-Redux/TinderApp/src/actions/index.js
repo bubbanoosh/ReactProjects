@@ -1,9 +1,10 @@
 
-// Action Creators
+// Action Creators:
+    // Need to return an ACTION
+    // Are an object with a TYPE property
 
+// selectBook is an ActionCreator
 export function selectBook(book) {
-    // selectBook is an ActionCreator, it needs to return an action
-    // an object with a TYPE property
     return {
         type: 'BOOK_SELECTED',
         payload: book
