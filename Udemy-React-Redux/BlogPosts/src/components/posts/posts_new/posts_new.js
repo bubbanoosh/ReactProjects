@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form, Field, reduxForm, FieldArray } from 'redux-form';
 //import SimpleReduxForm from './simple_redux_form/simple_redux_form';
 import submitPostNewSubmitForm from './posts_new_submit';
+import normalizeUpperText from './simple_redux_form/normalizeUpperText';
 
 const renderField = ({ input, label, type, meta: { touched, error } }) => (
     <div>
@@ -12,9 +13,33 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => (
         </div>
     </div>
 )
+const renderFieldArray = ({ fields }) => (
+    <ul>
+        <li>
+            <button type='button' onClick={() => { fields.push() }}>
+                Add Category
+            </button>
+        </li>
+        {fields.map((field, index) =>
+            <li key={index}>
+                <Field 
+                    name={field} 
+                    component={renderField}
+                    placeholder={`Category: ${index + 1}`}
+                    normalize={normalizeUpperText}
+                     />
+                <button type='button' onClick={() => { fields.remove(index) }}>
+                    Remove
+                    </button>
+            </li>
+        )}
+        {fields.error && <li className='error'>{fields.error}</li>}
+    </ul>
+)
+
 
 const PostsNew = props => {
-    const { error, handleSubmit, pristine, reset, submitting } = props
+    const { error, handleSubmit, pristine, reset, invalid, submitting } = props
     return (
         <Form onSubmit={handleSubmit(submitPostNewSubmitForm)}>
             <Field
@@ -22,12 +47,12 @@ const PostsNew = props => {
                 type="text"
                 component={renderField}
                 label="Posts Title:"
+                normalize={normalizeUpperText}
             />
-            <Field
+            <FieldArray
                 name="postCategories"
-                type="text"
-                component={renderField}
-                label="Posts Categories"
+                component={renderFieldArray}
+                label="Posts Categories"                
             />
             <Field
                 name="postContent"
@@ -46,7 +71,7 @@ const PostsNew = props => {
                 <button type="submit" disabled={submitting}>
                     Log In
           </button>
-                <button type="button" disabled={pristine || submitting} onClick={reset}>
+                <button type="button" disabled={invalid || pristine || submitting} onClick={reset}>
                     Clear Values
           </button>
             </div>
@@ -66,8 +91,9 @@ function validate(values) {
 
     if (!values.postCategories) {
         errors.postCategories = 'Please enter a category';
-    } else if (values.postCategories.split(',').length > 3) {
-        errors.postCategories = 'Max categories is 3';
+    } else if (values.postCategories.length > 3) {
+        errors.postCategories = [];
+        errors.postCategories._error = 'Max categories is 3';
     }
 
     if (!values.postContent) {
