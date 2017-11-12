@@ -1,18 +1,19 @@
-import { SubmissionError } from 'redux-form'
+import { SubmissionError } from 'redux-form';
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
-export default function submitPostNewSubmitForm(values) {
+export default function submitPostNewForm(values) {
   return sleep(1000).then(() => {
     // simulate server latency
-    if (!['redux', 'react', 'form', 'shit'].includes(values.postTitle)) {
+    const garbageAndSwears = ['asdf', 'xxx', 'fuck', 'shit']; 
+    if (garbageAndSwears.includes(values.postTitle)) {
       throw new SubmissionError({
-        postTitle: 'Title not contained in expected results',
+        postTitle: 'Please don\'t use the swears or talk garbage',
         _error: 'Invalid title!'
       })
-    } else if (values.postContent !== 'xxx') {
+    } else if (garbageAndSwears.includes(values.postContent)) {
       throw new SubmissionError({
-        postContent: 'Content should contain \'xxx\'',
+        postContent: 'That is bad content',
         _error: 'Invalid Content!'
       })
     } else {

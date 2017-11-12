@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
-import ShowResults from './show_results'
+import ShowResults from '../../../helpers/show_results';
 
 /*
 *  https://www.youtube.com/watch?v=eDTi7lYR1VU&feature=youtu.be

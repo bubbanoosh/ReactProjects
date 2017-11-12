@@ -1,88 +1,16 @@
 import React, { Component } from 'react';
 import { Form, Field, reduxForm, FieldArray } from 'redux-form';
 //import SimpleReduxForm from './simple_redux_form/simple_redux_form';
-import submitPostNewSubmitForm from './posts_new_submit';
-import normalizeUpperText from './simple_redux_form/normalizeUpperText';
 
-const renderField = ({ input, label, type, meta: { touched, error } }) => (
-    <div>
-        <label>{label}</label>
-        <div>
-            <input {...input} placeholder={label} type={type} />
-            {touched && error && <span>{error}</span>}
-        </div>
-    </div>
-)
-const renderFieldArray = ({ fields }) => (
-    <ul>
-        <li>
-            <button type='button' onClick={() => { fields.push() }}>
-                Add Category
-            </button>
-        </li>
-        {fields.map((field, index) =>
-            <li key={index}>
-                <Field 
-                    name={field} 
-                    component={renderField}
-                    placeholder={`Category: ${index + 1}`}
-                    normalize={normalizeUpperText}
-                     />
-                <button type='button' onClick={() => { fields.remove(index) }}>
-                    Remove
-                    </button>
-            </li>
-        )}
-        {fields.error && <li className='error'>{fields.error}</li>}
-    </ul>
-)
+import RenderField from '../../forms/render_field';
+import RenderFieldArray from '../../forms/render_field_array';
 
-
-const PostsNew = props => {
-    const { error, handleSubmit, pristine, reset, invalid, submitting } = props
-    return (
-        <Form onSubmit={handleSubmit(submitPostNewSubmitForm)}>
-            <Field
-                name="postTitle"
-                type="text"
-                component={renderField}
-                label="Posts Title:"
-                normalize={normalizeUpperText}
-            />
-            <FieldArray
-                name="postCategories"
-                component={renderFieldArray}
-                label="Posts Categories"                
-            />
-            <Field
-                name="postContent"
-                type="text"
-                component={renderField}
-                label="Post Content"
-            />
-            {/* <Field
-          name="password"
-          type="password"
-          component={renderField}
-          label="Password"
-        /> */}
-            {error && <strong>{error}</strong>}
-            <div>
-                <button type="submit" disabled={submitting}>
-                    Log In
-          </button>
-                <button type="button" disabled={invalid || pristine || submitting} onClick={reset}>
-                    Clear Values
-          </button>
-            </div>
-        </Form>
-    )
-}
-
+import submitPostNewSubmitForm from './submit_post_new_form';
+import normalizeUpperText from '../../helpers/normalizeUpperText';
 
 function validate(values) {
     const errors = {};
-    console.log('Values: ' + values);
+
     if (!values.postTitle) {
         errors.postTitle = 'Title is required';
     } else if (values.postTitle.length > 20) {
@@ -103,6 +31,47 @@ function validate(values) {
     }
 
     return errors;
+}
+
+const PostsNew = props => {
+    const { error, handleSubmit, pristine, reset, invalid, submitting } = props
+    return (
+        <Form onSubmit={handleSubmit(submitPostNewSubmitForm)}>
+            <Field
+                name="postTitle"
+                type="text"
+                component={RenderField}
+                label="Posts Title:"
+                normalize={normalizeUpperText}
+            />
+            <FieldArray
+                name="postCategories"
+                component={RenderFieldArray}
+                label="Posts Categories"
+            />
+            <Field
+                name="postContent"
+                type="text"
+                component={RenderField}
+                label="Post Content"
+            />
+            {/* <Field
+          name="password"
+          type="password"
+          component={RenderField}
+          label="Password"
+        /> */}
+            {error && <strong>{error}</strong>}
+            <div>
+                <button type="submit" disabled={invalid || pristine || submitting} className={invalid || pristine ? 'btn btn-secondary' : 'btn btn-primary'}>
+                    Submit
+                </button>
+                <button type="button" disabled={pristine} onClick={reset} className='btn btn-secondary'>
+                    Clear Values
+                </button>
+            </div>
+        </Form>
+    )
 }
 
 export default reduxForm({
