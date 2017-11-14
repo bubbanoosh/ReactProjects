@@ -1,12 +1,38 @@
-import React, { Component } from 'react';
-import { Form, Field, reduxForm, FieldArray } from 'redux-form';
+import React, { Component   } from 'react';
+import { Form, Field, reduxForm, FieldArray, SubmissionError } from 'redux-form';
+import { Link } from 'react-router-dom';
+
 //import SimpleReduxForm from './simple_redux_form/simple_redux_form';
 
 import RenderField from '../../forms/render_field';
 import RenderFieldArray from '../../forms/render_field_array';
 
-import submitPostNewSubmitForm from './submit_post_new_form';
+//import submitPostNewSubmitForm from './submit_post_new_form';
 import normalizeUpperText from '../../helpers/normalizeUpperText';
+
+
+
+//ACTION CREATOR
+import { connect } from 'react-redux';
+import { createPost } from '../../../actions';
+
+function submitPostNewSubmitForm(values) {
+    // simulate server latency
+    const garbageAndSwears = ['asdf', 'xxx', 'fuck', 'shit'];
+    if (garbageAndSwears.includes(values.postTitle)) {
+        throw new SubmissionError({
+            postTitle: 'Please don\'t use the swears or talk garbage',
+            _error: 'Invalid title!'
+        })
+    } else if (garbageAndSwears.includes(values.postContent)) {
+        throw new SubmissionError({
+            postContent: 'That is bad content',
+            _error: 'Invalid Content!'
+        })
+    }
+    
+    return this.props.createPost(values);
+}
 
 function validate(values) {
     const errors = {};
@@ -36,7 +62,7 @@ function validate(values) {
 const PostsNew = props => {
     const { error, handleSubmit, pristine, reset, invalid, submitting } = props
     return (
-        <Form onSubmit={handleSubmit(submitPostNewSubmitForm)}>
+        <Form onSubmit={handleSubmit(submitPostNewSubmitForm.bind(this))}>
             <Field
                 name="postTitle"
                 type="text"
@@ -66,9 +92,10 @@ const PostsNew = props => {
                 <button type="submit" disabled={invalid || pristine || submitting} className={invalid || pristine ? 'btn btn-secondary' : 'btn btn-primary'}>
                     Submit
                 </button>
-                <button type="button" disabled={pristine} onClick={reset} className='btn btn-secondary'>
-                    Clear Values
+                <button type="button" disabled={pristine} onClick={reset} className='btn btn-secondary' style={{ marginLeft: '10px' }}>
+                    Clear V alues
                 </button>
+                <Link to="/" className="btn btn-danger" style= {{ marginLeft: '10px' }}>Cancel</Link>                
             </div>
         </Form>
     )
@@ -77,7 +104,10 @@ const PostsNew = props => {
 export default reduxForm({
     form: 'PostsNewForm',
     validate
-})(PostsNew);
+})(
+    // Connect ACTION CREATOR
+    connect(null, { createPost })(PostsNew)
+    );
 
 
 

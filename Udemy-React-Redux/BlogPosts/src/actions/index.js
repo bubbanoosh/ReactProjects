@@ -16,3 +16,14 @@ export function fetchPosts () {
         payload: request 
     };
 }
+
+// ACTION CREATOR > Reducers
+export function createPost (values) {
+    const request = axios.post(`${AppConfig.ROOT_URL}/posts${AppConfig.API_KEY}`, values);
+
+    return {
+        type: CREATE_POST,
+        // 'Redux promise Middleware' will automatically resolve the request for us
+        payload: request 
+    }
+}
