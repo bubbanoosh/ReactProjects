@@ -1,4 +1,4 @@
-import React, { Component   } from 'react';
+import React, { Component } from 'react';
 import { Form, Field, reduxForm, FieldArray, SubmissionError } from 'redux-form';
 import { Link } from 'react-router-dom';
 
@@ -16,23 +16,75 @@ import normalizeUpperText from '../../helpers/normalizeUpperText';
 import { connect } from 'react-redux';
 import { createPost } from '../../../actions';
 
-function submitPostNewSubmitForm(values) {
-    // simulate server latency
-    const garbageAndSwears = ['asdf', 'xxx', 'fuck', 'shit'];
-    if (garbageAndSwears.includes(values.postTitle)) {
-        throw new SubmissionError({
-            postTitle: 'Please don\'t use the swears or talk garbage',
-            _error: 'Invalid title!'
-        })
-    } else if (garbageAndSwears.includes(values.postContent)) {
-        throw new SubmissionError({
-            postContent: 'That is bad content',
-            _error: 'Invalid Content!'
-        })
+class PostsNew extends Component {
+
+    submitPostNewSubmitForm(values) {
+        // simulate server latency
+        const garbageAndSwears = ['asdf', 'xxx', 'fuck', 'shit'];
+        if (garbageAndSwears.includes(values.postTitle)) {
+            throw new SubmissionError({
+                postTitle: 'Please don\'t use the swears or talk garbage',
+                _error: 'Invalid title!'
+            })
+        } else if (garbageAndSwears.includes(values.postContent)) {
+            throw new SubmissionError({
+                postContent: 'That is bad content',
+                _error: 'Invalid Content!'
+            })
+        }
+
+        // CreatePost(values, callback)
+         return this.props.createPost(values, () => {
+             this.props.history.push('/')
+         });
     }
-    
-    return this.props.createPost(values);
+
+    render() {
+
+        const { error, handleSubmit, pristine, reset, invalid, submitting } = this.props
+        return (
+            <Form onSubmit={handleSubmit(this.submitPostNewSubmitForm.bind(this))}>
+                <Field
+                    name="postTitle"
+                    type="text"
+                    component={RenderField}
+                    label="Posts Title:"
+                    normalize={normalizeUpperText}
+                />
+                <FieldArray
+                    name="postCategories"
+                    component={RenderFieldArray}
+                    label="Posts Categories"
+                />
+                <Field
+                    name="postContent"
+                    type="text"
+                    component={RenderField}
+                    label="Post Content"
+                />
+                {error && <strong>{error}</strong>}
+                <div>
+                    <button type="submit" disabled={invalid || pristine || submitting} className={invalid || pristine ? 'btn btn-secondary' : 'btn btn-primary'}>
+                        Submit
+                </button>
+                    <button type="button" disabled={pristine} onClick={reset} className='btn btn-secondary' style={{ marginLeft: '10px' }}>
+                        Clear Values
+                </button>
+                    <Link to="/" className="btn btn-danger" style={{ marginLeft: '10px' }}>Cancel</Link>
+                </div>
+            </Form>
+        )
+    }
 }
+
+export default reduxForm({
+    form: 'PostsNewForm',
+    validate
+})(
+    // Connect ACTION CREATOR
+    connect(null, { createPost })(PostsNew)
+    );
+
 
 function validate(values) {
     const errors = {};
@@ -59,55 +111,6 @@ function validate(values) {
     return errors;
 }
 
-const PostsNew = props => {
-    const { error, handleSubmit, pristine, reset, invalid, submitting } = props
-    return (
-        <Form onSubmit={handleSubmit(submitPostNewSubmitForm.bind(this))}>
-            <Field
-                name="postTitle"
-                type="text"
-                component={RenderField}
-                label="Posts Title:"
-                normalize={normalizeUpperText}
-            />
-            <FieldArray
-                name="postCategories"
-                component={RenderFieldArray}
-                label="Posts Categories"
-            />
-            <Field
-                name="postContent"
-                type="text"
-                component={RenderField}
-                label="Post Content"
-            />
-            {/* <Field
-          name="password"
-          type="password"
-          component={RenderField}
-          label="Password"
-        /> */}
-            {error && <strong>{error}</strong>}
-            <div>
-                <button type="submit" disabled={invalid || pristine || submitting} className={invalid || pristine ? 'btn btn-secondary' : 'btn btn-primary'}>
-                    Submit
-                </button>
-                <button type="button" disabled={pristine} onClick={reset} className='btn btn-secondary' style={{ marginLeft: '10px' }}>
-                    Clear V alues
-                </button>
-                <Link to="/" className="btn btn-danger" style= {{ marginLeft: '10px' }}>Cancel</Link>                
-            </div>
-        </Form>
-    )
-}
-
-export default reduxForm({
-    form: 'PostsNewForm',
-    validate
-})(
-    // Connect ACTION CREATOR
-    connect(null, { createPost })(PostsNew)
-    );
 
 
 

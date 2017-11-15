@@ -9,6 +9,7 @@ import promise from 'redux-promise';
 
 import PostsIndex from './components/posts/posts_index';
 import PostsNew from './components/posts/posts_new/posts_new';
+import PostsShow from './components/posts/posts_show/posts_show';
 import Navigation from './components/main/navigation';
 import Header from './components/main/header';
 
@@ -25,6 +26,7 @@ ReactDOM.render(
         <Header />
         <Switch>
           <Route path="/posts/new" component={PostsNew} />
+          <Route path="/posts/:id" component={PostsShow} />
           <Route path="/" component={PostsIndex} />
         </Switch>
       </div>
