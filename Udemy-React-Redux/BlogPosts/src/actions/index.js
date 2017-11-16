@@ -19,14 +19,14 @@ export function fetchPosts() {
 
 export function fetchPost(id) {
     const request = axios.get(`${AppConfig.ROOT_URL}/posts/${id}${AppConfig.API_KEY}`);
-        // .then(response => {
-        //     if (response.status === 200) {
-        //         return response.data;
-        //     } else {
-        //         return response
-        //     }
-        // })
-        // .catch(error => { Promise.reject(error) });
+    // .then(response => {
+    //     if (response.status === 200) {
+    //         return response.data;
+    //     } else {
+    //         return response
+    //     }
+    // })
+    // .catch(error => { Promise.reject(error) });
 
     return {
         type: FETCH_POST,
@@ -52,5 +52,19 @@ export function createPost(values, callback) {
         type: CREATE_POST,
         // 'Redux promise Middleware' will automatically resolve the request for us
         payload: request
+    }
+}
+
+// ACTION CREATOR > Reducers
+export function deletePost(id, callback) {
+    //window.alert(`Deleting: ${id}`);
+
+    const request = axios.delete(`${AppConfig.ROOT_URL}/posts/${id}${AppConfig.API_KEY}`)
+        .then(() => callback());
+
+    return {
+        type: DELETE_POST,
+        // 'Redux promise Middleware' will automatically resolve the request for us
+        payload: id
     }
 }

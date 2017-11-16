@@ -6,8 +6,7 @@ import Footer from '../../main/footer';
 import PostDetail from './post_detail';
 
 // // Import ACTION CREATOR functions
-import { fetchPost } from '../../../actions';
-//import { deletePost } from '../../../actions';
+import { fetchPost, deletePost } from '../../../actions';
 
 class PostsShow extends Component {
 
@@ -16,11 +15,19 @@ class PostsShow extends Component {
         //// From react-router
         // this.props.match.params.id;
         // destructure
+        //if (!this.props.post)
         const { id } = this.props.match.params;
 
         //if (id !== undefined) {
-            this.props.fetchPost(id);
+        this.props.fetchPost(id);
         //}
+    }
+
+    onDeleteClick() {
+        const { id } = this.props.match.params;
+        this.props.deletePost(id, () => {
+            this.props.history.push('/')
+        });
     }
 
     render() {
@@ -39,6 +46,14 @@ class PostsShow extends Component {
                             <Link className="btn btn-primary" to="/posts/new">
                                 Add a post
                             </Link>
+                            <Link className="btn btn-primary" to="/" style={{ marginLeft: '10px' }}>
+                                Index
+                            </Link>
+                            <button 
+                                className="btn btn-danger pull-xs-right" style={{ marginLeft: '10px' }}
+                                onClick={this.onDeleteClick.bind(this)}>
+                                    Delete Post
+                            </button>
                         </div>
                         <PostDetail post={this.props.post} />
                     </div>
@@ -61,4 +76,4 @@ function mapStateToProps({ posts }, ownProps) {
 // rather than 
 //  mapDispatchToProps()
 
-export default connect(mapStateToProps, { fetchPost })(PostsShow);
+export default connect(mapStateToProps, { fetchPost, deletePost })(PostsShow);

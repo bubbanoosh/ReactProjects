@@ -8,7 +8,7 @@ import RenderField from '../../forms/render_field';
 import RenderFieldArray from '../../forms/render_field_array';
 
 //import submitPostNewSubmitForm from './submit_post_new_form';
-import normalizeUpperText from '../../helpers/normalizeUpperText';
+import normalizeUpperText from '../../../helpers/normalizeUpperText';
 
 
 
@@ -30,6 +30,11 @@ class PostsNew extends Component {
             throw new SubmissionError({
                 postContent: 'That is bad content',
                 _error: 'Invalid Content!'
+            })
+        } else if (values.postCategories === undefined || values.postCategories.length <= 0) {
+            throw new SubmissionError({
+                postCategories: 'Enter at least 1 Category',
+                _error: 'Invalid Categories!'
             })
         }
 
@@ -91,11 +96,11 @@ function validate(values) {
 
     if (!values.postTitle) {
         errors.postTitle = 'Title is required';
-    } else if (values.postTitle.length > 20) {
+    } else if (values.postTitle.length > 40) {
         errors.postTitle = 'Title max is 20 chars';
     }
 
-    if (!values.postCategories) {
+    if (!values.postCategories || values.postCategories.length <= 0) {
         errors.postCategories = 'Please enter a category';
     } else if (values.postCategories.length > 3) {
         errors.postCategories = [];
@@ -104,7 +109,7 @@ function validate(values) {
 
     if (!values.postContent) {
         errors.postContent = 'Post content is required';
-    } else if (values.postContent.length > 50) {
+    } else if (values.postContent.length > 1000) {
         errors.postContent = 'Post content max is 50 chars';
     }
 

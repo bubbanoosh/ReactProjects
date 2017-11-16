@@ -3,7 +3,7 @@ import { Field } from 'redux-form';
 
 import RenderField from './render_field'
 
-import normalizeUpperText from '../helpers/normalizeUpperText';
+import normalizeUpperText from '../../helpers/normalizeUpperText';
 
 const RenderFieldArray = ({ fields }) => (
     <ul className='list-group'>
