@@ -9,9 +9,9 @@ import {
   decrementAsync
 } from '../../modules/counter'
 
-const Home = props => (
+const Counter = props => (
   <div>
-    <h1>Home</h1>
+    <h1>Counter</h1>
     <p>Count: {props.count}</p>
 
     <p>
@@ -24,7 +24,7 @@ const Home = props => (
       <button onClick={props.decrementAsync} disabled={props.isDecrementing}>Decrement Async</button>
     </p>
 
-    <p><button onClick={() => props.changePage()}>Go to about page via redux</button></p>
+    <p><button onClick={() => props.changePage()}>View Challenge Criteria</button></p>
   </div>
 )
 
@@ -39,10 +39,10 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   incrementAsync,
   decrement,
   decrementAsync,
-  changePage: () => push('/about-us')
+  changePage: () => push('/coding-challenge')
 }, dispatch)
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Home)
+)(Counter)
