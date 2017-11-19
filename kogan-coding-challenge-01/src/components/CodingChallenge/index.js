@@ -5,40 +5,31 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 import {
     fetchProducts,
+    setCurrentProducts,
     filterProduct,
     calculateAverage
 } from '../../modules/products'
 
-import Product from './Product'
+import ProductList from './ProductList'
 
 
 class CodingChallenge extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            averageCubicWeight: 0
+        };
+    }
+
     componentDidMount() {
+        console.log('componentDidMount CodingChallenge');
         this.props.fetchProducts();
     }
 
-    getRandomKey() {
-        return _.random(1, 1000000);
-    }
-
-    renderListItem(products) {
-        console.log('Entered:');
-        // lodash to map Objects > Array
-
-        if (products.some(p => p.category === this.props.productCategory)) {
-
-            let productObjects = products.filter( prod => prod.category === this.props.productCategory);
-
-            return _.map(productObjects, p => {
-                return (
-                    <Product
-                        key={this.getRandomKey()}
-                        product={p} />
-                );
-            });
-        }
-
+    onCalculateAverageWeightClick() {
+        console.log('onCalculateAverageWeightClick: ' + this.props.currentProducts);
+        this.props.calculateAverage();
     }
 
     render() {
@@ -47,11 +38,18 @@ class CodingChallenge extends Component {
                 <div className="row">
                     <div className="col-md-12">
                         <h1>Products: {this.props.productCategory}</h1>
-                        <p>Average Weight: {this.props.averageCubicWeight}</p>
+                        <p>Average Weight: {this.props.averageCubicWeight}
+                            <button
+                                className="btn btn-danger pull-xs-right" style={{ marginLeft: '10px' }}
+                                onClick={this.onCalculateAverageWeightClick.bind(this)}>
+                                Calculate avg weight
+                            </button></p>
                         {this.props.currentPageResponse.length > 0 &&
-                            <div key={this.getRandomKey()}>
-                                {this.renderListItem(this.props.currentPageResponse)}
-                            </div>
+                            <ProductList
+                                currentPageResponse={this.props.currentPageResponse}
+                                productCategory={this.props.productCategory}
+                                setCurrentProducts={this.props.setCurrentProducts}
+                                currentProducts={this.props.currentProducts} />
                         }
 
                     </div>
@@ -64,11 +62,13 @@ class CodingChallenge extends Component {
 const mapStateToProps = state => ({
     averageCubicWeight: state.products.averageCubicWeight,
     currentPageResponse: state.products.currentPageResponse,
-    productCategory: state.products.productCategory
+    productCategory: state.products.productCategory,
+    currentProducts: state.products.currentProducts
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     fetchProducts,
+    setCurrentProducts,
     filterProduct,
     calculateAverage
 }, dispatch)
