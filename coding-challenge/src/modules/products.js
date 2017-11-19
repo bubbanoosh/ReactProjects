@@ -5,9 +5,9 @@ import _ from 'lodash'
 export const FETCH_PRODUCTS = 'products/FETCH_PRODUCTS'
 export const FETCH_PRODUCTS_REQUEST = 'products/FETCH_PRODUCTS_REQUEST'
 export const FETCH_PRODUCTS_SUCCESS = 'products/FETCH_PRODUCTS_SUCCESS'
-export const FETCH_PRODUCTS_ERROR = 'products/FETCH_PRODUCTS_ERROR'
 export const FILTER_PRODUCT = 'products/FILTER_PRODUCT'
 export const SET_CURRENT_PRODUCTS = 'products/SET_CURRENT_PRODUCTS'
+export const SET_CATEGORIES = 'products/SET_CATEGORIES'
 export const CALCULATE_AVERAGE_WEIGHT = 'products/CALCULATE_AVERAGE_WEIGHT'
 export const CALCULATE_AVERAGE_WEIGHT_REQUESTED = 'products/CALCULATE_AVERAGE_WEIGHT_REQUESTED'
 
@@ -17,7 +17,7 @@ const initialState = {
     currentPageResponse: [],
     currentProducts: [],
     nextPage: '',
-    productsError: {}
+    categories: []
 }
 
 export default (state = initialState, action) => {
@@ -40,11 +40,11 @@ export default (state = initialState, action) => {
                 ...state,
                 currentProducts: action.payload
             }
-        case FETCH_PRODUCTS_ERROR:
+        case SET_CATEGORIES:
 
             return {
                 ...state,
-                productsError: action.error
+                categories: action.payload
             }
         case FILTER_PRODUCT:
 
@@ -102,8 +102,6 @@ export const fetchProducts = (firstPage = '/api/products/1') => {
             const results = responses.map(response => response.data.objects);
             const allResults = [].concat(...results);
 
-            console.log('FETCH_PRODUCTS_REQUEST:' + allResults);
-
             dispatch({
                 type: FETCH_PRODUCTS_SUCCESS,
                 payload: allResults
@@ -126,6 +124,17 @@ export const setCurrentProducts = (currentProducts) => {
         dispatch({
             type: SET_CURRENT_PRODUCTS,
             payload: currentProducts
+        })
+    }
+}
+
+export const setCategoryList = (categories) => {
+    console.log('setCategoryList:' + categories)
+    
+    return dispatch => {
+        dispatch({
+            type: SET_CATEGORIES,
+            payload: categories
         })
     }
 }
@@ -154,33 +163,16 @@ export const calculateAverage = (currentProducts) => {
     }
 
     function calculateAverageWeight(currentProducts) {
-
         let avg = 0;
         let weights = [];
 
         currentProducts.forEach(c => {
-
-            const prod = c
-            const weight = c.weight
             const size = c.size
-
             const dimensions = calculateDimensions(size)
-
-            console.log('dimensions: ' + dimensions);
-
             const totalWeight = dimensions * 250
-
-            console.log('totalWeight: ' + totalWeight);
-
-
             weights.push(totalWeight)
         });
-
-        console.log('weights.length: ' + weights.length);
-
         avg = _.mean(weights)
-
-        console.log('avg: ' + avg);
 
         return round(avg, 2)
     }

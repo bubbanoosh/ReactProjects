@@ -1,27 +1,23 @@
 import React, { Component } from 'react';
-//import { push } from 'react-router-redux'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import _ from 'lodash'
 import {
     fetchProducts,
     setCurrentProducts,
+    setCategoryList,
     filterProduct,
     calculateAverage
 } from '../../modules/products'
 
 import ProductList from './ProductList'
 
-
 class CodingChallenge extends Component {
 
     componentDidMount() {
-        console.log('componentDidMount CodingChallenge');
         this.props.fetchProducts();
     }
 
     onCalculateAverageWeightClick() {
-        console.log('onCalculateAverageWeightClick: ' + this.props.currentProducts);
         this.props.calculateAverage(this.props.currentProducts);
     }
 
@@ -31,12 +27,36 @@ class CodingChallenge extends Component {
                 <div className="row">
                     <div className="col-md-12">
                         <h1>Products: {this.props.productCategory}</h1>
-                        <p>Average Weight: {this.props.averageCubicWeight}
+                        {/* <div>
+                            {this.props.currentPageResponse.length > 0 &&
+                                <CategoryFilter
+                                    currentPageResponse={this.props.currentPageResponse}
+                                    selectedCategory={'Air conditioners'}
+                                    setCategoryList={setCategoryList}
+                                    categories={this.props.categories}
+                                />
+                            }
+                        </div> */}
+
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-12">
+                        <div className="col-md-6 text-left">
                             <button
-                                className="btn btn-danger pull-xs-right" style={{ marginLeft: '10px' }}
+                                className="btn btn-success pull-md-left"
                                 onClick={this.onCalculateAverageWeightClick.bind(this)}>
                                 Calculate avg weight
-                            </button></p>
+                            </button>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="pull-xs-left"><h3>Average Weight: {this.props.averageCubicWeight}</h3></div>
+                        </div>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="card sb-card col-md-12">
+                        <div className="card-body">
                         {this.props.currentPageResponse.length > 0 &&
                             <ProductList
                                 currentPageResponse={this.props.currentPageResponse}
@@ -44,7 +64,7 @@ class CodingChallenge extends Component {
                                 setCurrentProducts={this.props.setCurrentProducts}
                                 currentProducts={this.props.currentProducts} />
                         }
-
+                        </div>
                     </div>
                 </div>
             </div>
@@ -56,12 +76,14 @@ const mapStateToProps = state => ({
     averageCubicWeight: state.products.averageCubicWeight,
     currentPageResponse: state.products.currentPageResponse,
     productCategory: state.products.productCategory,
-    currentProducts: state.products.currentProducts
+    currentProducts: state.products.currentProducts,
+    categories: state.products.categories
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     fetchProducts,
     setCurrentProducts,
+    setCategoryList,
     filterProduct,
     calculateAverage
 }, dispatch)
