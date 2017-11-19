@@ -69,7 +69,7 @@ export const fetchProducts = (firstPage = '/api/products/1') => {
     return dispatch => {
         dispatch({
             type: FETCH_PRODUCTS_REQUEST,
-            productCategory: 'ALL'
+            productCategory: 'Air Conditioners'
         })
 
         get(axios, firstPage, dispatch)

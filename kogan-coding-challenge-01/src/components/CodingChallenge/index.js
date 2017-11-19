@@ -18,16 +18,27 @@ class CodingChallenge extends Component {
         this.props.fetchProducts();
     }
 
+    getRandomKey() {
+        return _.random(1, 1000000);
+    }
+
     renderListItem(products) {
         console.log('Entered:');
         // lodash to map Objects > Array
-        return _.map(products, p => {
-            return (
-                <Product
-                    key={p.title}
-                    product={p} />
-            );
-        });
+
+        if (products.some(p => p.category === this.props.productCategory)) {
+
+            let productObjects = products.filter( prod => prod.category === this.props.productCategory);
+
+            return _.map(productObjects, p => {
+                return (
+                    <Product
+                        key={this.getRandomKey()}
+                        product={p} />
+                );
+            });
+        }
+
     }
 
     render() {
@@ -38,7 +49,7 @@ class CodingChallenge extends Component {
                         <h1>Products: {this.props.productCategory}</h1>
                         <p>Average Weight: {this.props.averageCubicWeight}</p>
                         {this.props.currentPageResponse.length > 0 &&
-                            <div>
+                            <div key={this.getRandomKey()}>
                                 {this.renderListItem(this.props.currentPageResponse)}
                             </div>
                         }
