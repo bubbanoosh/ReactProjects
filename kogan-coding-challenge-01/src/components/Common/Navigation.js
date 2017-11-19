@@ -7,9 +7,9 @@ const Navigation = (props) => {
             <div className="container">
                 <div className="navbar-header">
                     <Link to="/" className="btn btn-primary btn-lg">Home</Link>
-                    <Link to="/coding-challenge" className="btn btn-primary btn-lg">Coding Challenge</Link>
-                    <Link to="/counter" className="btn btn-primary btn-lg">Counter</Link>
-                    </div>
+                    <Link to="/coding-challenge" className="btn btn-primary btn-lg" style={{marginLeft: '1rem'}}>Coding Challenge</Link>
+                    <Link to="/counter" className="btn btn-primary btn-lg" style={{marginLeft: '1rem'}}>Counter</Link>
+                </div>
             </div>
         </nav>
     );

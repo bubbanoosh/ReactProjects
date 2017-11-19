@@ -3,8 +3,6 @@ import axios from 'axios'
 import _ from 'lodash'
 
 export const FETCH_PRODUCTS = 'products/FETCH_PRODUCTS'
-export const FETCH_PRODUCTS_REQUEST = 'products/FETCH_PRODUCTS_REQUEST'
-export const FETCH_PRODUCTS_SUCCESS = 'products/FETCH_PRODUCTS_SUCCESS'
 export const FETCH_PRODUCTS_ERROR = 'products/FETCH_PRODUCTS_ERROR'
 export const FILTER_PRODUCT = 'products/FILTER_PRODUCT'
 export const CALCULATE_AVERAGE_WEIGHT = 'products/CALCULATE_AVERAGE_WEIGHT'
@@ -20,18 +18,11 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case FETCH_PRODUCTS_SUCCESS:
-            console.log('FETCH_PRODUCTS_SUCCESS:' + action.payload);
+        case FETCH_PRODUCTS:
+            console.log('FETCH_PRODUCTS:' + action.payload.data.objects);
             return {
                 ...state,
                 currentPageResponse: action.payload // _.mapKeys(action.payload.data, 'title')
-                //,isIncrementing: true
-            }
-        case FETCH_PRODUCTS_REQUEST:
-
-            return {
-                ...state,
-                productCategory: action.productCategory
                 //,isIncrementing: true
             }
         case FETCH_PRODUCTS_ERROR:
@@ -66,18 +57,9 @@ export default (state = initialState, action) => {
 }
 
 export const fetchProducts = (firstPage = '/api/products/1') => {
-    return dispatch => {
-        dispatch({
-            type: FETCH_PRODUCTS_REQUEST,
-            productCategory: 'ALL'
-        })
+    let error = {};
 
-        get(axios, firstPage, dispatch)
-
-    }
-
-
-    function get(axios, firstPage, dispatch) {
+    function get(axios, firstPage) {
         function fetch(page, responses) {
 
             console.log('axios.get b4:' + page);
@@ -96,21 +78,20 @@ export const fetchProducts = (firstPage = '/api/products/1') => {
         console.log('FUKER');
         const responses = [];
         return fetch(firstPage, responses).then(() => {
-            
             const results = responses.map(response => response.data.objects);
             let hmmm = [].concat(...results);
             console.log('Hmmm:' + hmmm);
-            
-            dispatch({
-                type: FETCH_PRODUCTS_SUCCESS,
-                payload: hmmm
-            })
-    
-            
-            
-            //return hmmm;
+            return hmmm;
         });
     }
+
+    return dispatch => {
+        dispatch({
+            type: FETCH_PRODUCTS,
+            payload: get(axios, firstPage)
+        })
+    }
+
 }
 
 export const fetchProductsNewer = (firstPage = '/api/products/1') => {
