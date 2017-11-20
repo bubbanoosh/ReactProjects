@@ -3,13 +3,17 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
     fetchProducts,
-    setCurrentProducts,
+    setCurrentCategoryAndProducts,
     setCategoryList,
-    filterProduct,
     calculateAverage
 } from '../../modules/products'
 
 import ProductList from './ProductList'
+import CategoryFilter from './CategoryFilter'
+
+const styles = {
+    extraMarginBottom: { marginBottom: '1rem' }
+}
 
 class CodingChallenge extends Component {
 
@@ -21,49 +25,51 @@ class CodingChallenge extends Component {
         this.props.calculateAverage(this.props.currentProducts);
     }
 
+
     render() {
         return (
             <div className="container">
+                {this.props.currentPageResponse.length > 0 && <div className="row">
+                    <div className="col-md-12" style={ styles.extraMarginBottom }>
+                        <CategoryFilter
+                            currentPageResponse={this.props.currentPageResponse}
+                            selectedCategory={this.props.productCategory}
+                            setCategoryList={this.props.setCategoryList}
+                            categories={this.props.categories}
+                            setCurrentCategoryAndProducts={this.props.setCurrentCategoryAndProducts}
+                            currentProducts={this.props.currentProducts}
+                        />
+                    </div>
+                </div>}
                 <div className="row">
                     <div className="col-md-12">
                         <h1>Products: {this.props.productCategory}</h1>
-                        {/* <div>
-                            {this.props.currentPageResponse.length > 0 &&
-                                <CategoryFilter
-                                    currentPageResponse={this.props.currentPageResponse}
-                                    selectedCategory={'Air conditioners'}
-                                    setCategoryList={setCategoryList}
-                                    categories={this.props.categories}
-                                />
-                            }
-                        </div> */}
-
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-md-12">
+                    <div className="col-md-12" style={ styles.extraMarginBottom }>
                         <div className="col-md-6 text-left">
                             <button
                                 className="btn btn-success pull-md-left"
                                 onClick={this.onCalculateAverageWeightClick.bind(this)}>
-                                Calculate avg weight
+                                Calculate Avg Cubic Weight
                             </button>
                         </div>
                         <div className="col-md-6">
-                            <div className="pull-xs-left"><h3>Average Weight: {this.props.averageCubicWeight}</h3></div>
+                            <div className="pull-xs-left"><h3>Average Weight: <span className="label label-default">{this.props.averageCubicWeight}</span></h3></div>
                         </div>
                     </div>
                 </div>
                 <div className="row">
                     <div className="card sb-card col-md-12">
                         <div className="card-body">
-                        {this.props.currentPageResponse.length > 0 &&
-                            <ProductList
-                                currentPageResponse={this.props.currentPageResponse}
-                                productCategory={this.props.productCategory}
-                                setCurrentProducts={this.props.setCurrentProducts}
-                                currentProducts={this.props.currentProducts} />
-                        }
+                            {this.props.currentPageResponse.length > 0 &&
+                                <ProductList
+                                    currentPageResponse={this.props.currentPageResponse}
+                                    productCategory={this.props.productCategory}
+                                    setCurrentCategoryAndProducts={this.props.setCurrentCategoryAndProducts}
+                                    currentProducts={this.props.currentProducts} />
+                            }
                         </div>
                     </div>
                 </div>
@@ -82,9 +88,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     fetchProducts,
-    setCurrentProducts,
+    setCurrentCategoryAndProducts,
     setCategoryList,
-    filterProduct,
     calculateAverage
 }, dispatch)
 

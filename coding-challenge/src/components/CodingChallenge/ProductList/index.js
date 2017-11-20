@@ -9,19 +9,7 @@ class ProductList extends Component {
     }
 
     handleSetCurrentProducts(products, productCategory, setCurrentProducts) {
-        let currentProducts = [];
-
-        if (productCategory !== '') {
-            if (products.some(p => p.category === productCategory)) {
-                currentProducts = products.filter(prod => prod.category === productCategory);
-            } else {
-                currentProducts = [];
-            }
-        } else {
-            currentProducts = products;
-        }
-
-        setCurrentProducts(currentProducts);
+        this.props.setCurrentCategoryAndProducts(products, productCategory);
     }
 
     renderListItem(products) {
