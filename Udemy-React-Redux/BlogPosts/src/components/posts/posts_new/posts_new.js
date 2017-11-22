@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Field, reduxForm, FieldArray, SubmissionError } from 'redux-form';
 import { Link } from 'react-router-dom';
+import _ from 'lodash';
 
 //import SimpleReduxForm from './simple_redux_form/simple_redux_form';
 
@@ -15,6 +16,27 @@ import normalizeUpperText from '../../../helpers/normalizeUpperText';
 //ACTION CREATOR
 import { connect } from 'react-redux';
 import { createPost } from '../../../actions';
+
+const FIELDS = {
+    postTitle: {
+        type: 'input',
+        label: 'Title',
+        maxLength: 5,
+        component: RenderField
+    },
+    postCategories: {
+        type: null,
+        label: 'Categories',
+        maxLength: 3,
+        component: RenderFieldArray
+    },
+    postContent: {
+        type: 'textarea',
+        label: 'Content',
+        maxLength: 250,
+        component: RenderField
+    } 
+}
 
 class PostsNew extends Component {
 
@@ -82,8 +104,43 @@ class PostsNew extends Component {
     }
 }
 
+function validate(values) {
+    const errors = {};
+
+    _.each(FIELDS, (type, field) => {
+        if (!values[field]) {
+            errors[field] = `Enter a ${field}`;
+        } 
+    });
+
+    // if (!values.postTitle) {
+    //     errors.postTitle = 'Title is required';
+    // } else if (values.postTitle.length > 40) {
+    //     errors.postTitle = 'Title max is 20 chars';
+    // }
+    if (!values.postCategories) {
+        errors.postCategories = 'Please enter a category';
+    } 
+
+    // if (!values.postCategories || values.postCategories.length <= 0) {
+    //     errors.postCategories = 'Please enter a category';
+    // } else if (values.postCategories.length > 3) {
+    //     errors.postCategories = [];
+    //     errors.postCategories._error = 'Max categories is 3';
+    // }
+
+    // if (!values.postContent) {
+    //     errors.postContent = 'Post content is required';
+    // } else if (values.postContent.length > 1000) {
+    //     errors.postContent = 'Post content max is 50 chars';
+    // }
+
+    return errors;
+}
+
 export default reduxForm({
     form: 'PostsNewForm',
+    fields: _.keys(FIELDS),
     validate
 })(
     // Connect ACTION CREATOR
@@ -91,30 +148,6 @@ export default reduxForm({
     );
 
 
-function validate(values) {
-    const errors = {};
-
-    if (!values.postTitle) {
-        errors.postTitle = 'Title is required';
-    } else if (values.postTitle.length > 40) {
-        errors.postTitle = 'Title max is 20 chars';
-    }
-
-    if (!values.postCategories || values.postCategories.length <= 0) {
-        errors.postCategories = 'Please enter a category';
-    } else if (values.postCategories.length > 3) {
-        errors.postCategories = [];
-        errors.postCategories._error = 'Max categories is 3';
-    }
-
-    if (!values.postContent) {
-        errors.postContent = 'Post content is required';
-    } else if (values.postContent.length > 1000) {
-        errors.postContent = 'Post content max is 50 chars';
-    }
-
-    return errors;
-}
 
 
 
