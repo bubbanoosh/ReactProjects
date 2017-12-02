@@ -13,7 +13,7 @@ class CategoryFilter extends Component {
         setCategoryList(all);
     }
 
-    onSelect(event) {
+    onSelect = (event) => {
         this.props.setCurrentCategoryAndProducts(this.props.currentPageResponse, event.target.value)
     }
 
@@ -29,7 +29,7 @@ class CategoryFilter extends Component {
 
     render() {
         return (
-            <select name="categories" id={3} onChange={this.onSelect.bind(this)} defaultValue={this.props.selectedCategory}>
+            <select name="categories" id={3} onChange={this.onSelect} defaultValue={this.props.selectedCategory}>
                 {this.renderCategories(this.props.categories, this.props.selectedCategory)}
             </select>
         )
