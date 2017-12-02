@@ -18,7 +18,6 @@ class CategoryFilter extends Component {
     }
 
     renderCategories(categories, selectedCategory) {
-
         if (categories.length > 0) {
             return _.map(categories, c => {
                 return (
