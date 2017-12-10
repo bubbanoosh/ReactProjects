@@ -71,7 +71,7 @@ class CodingChallenge extends Component {
         return (
             <Grid container spacing="0" className={classes.root}>
                 {this.props.currentPageResponse.length > 0 && <Grid item xs={12}>
-                    <Grid container className={classes.containerControl}>
+                    <Grid container spacing="0" className={classes.containerControl}>
                         <form autoComplete="off">
                             <CategoryFilter
                                 currentPageResponse={this.props.currentPageResponse}

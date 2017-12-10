@@ -13,7 +13,7 @@ function getAuthorName() {
 
 const styles = theme => ({
     root: {
-        padding: '1rem',
+        padding: '1.5rem',
     },
     container: {
         display: 'flex',
@@ -29,6 +29,9 @@ const styles = theme => ({
     navLink: {
         textDecoration: 'none',
     },
+    image: {
+        width: '300px',
+    },
 });
 
 const Header = (props) => {
@@ -36,8 +39,8 @@ const Header = (props) => {
     return (
         <div className={classes.root}>
             <div className="container">
-                <h1><img src={kogan} alt={AppConfig.APP_HEADING} /></h1>
-                <Typography type="headline" gutterBottom="true" color="primary">Challenger: {getAuthorName()}</Typography>
+                <h1><img src={kogan} alt={AppConfig.APP_HEADING} className={classes.image} /></h1>
+                <Typography type="display2" gutterBottom="true" color="primary">Challenger: {getAuthorName()}</Typography>
             </div>
         </div>
     );
