@@ -12,6 +12,9 @@ function getAuthorName() {
 }
 
 const styles = theme => ({
+    root: {
+        padding: '1rem',
+    },
     container: {
         display: 'flex',
         flexWrap: 'wrap',
@@ -34,7 +37,7 @@ const Header = (props) => {
         <div className={classes.root}>
             <div className="container">
                 <h1><img src={kogan} alt={AppConfig.APP_HEADING} /></h1>
-                <Typography type="headline" gutterBottom="true">Challenger: {getAuthorName()}</Typography>
+                <Typography type="headline" gutterBottom="true" color="primary">Challenger: {getAuthorName()}</Typography>
             </div>
         </div>
     );
@@ -44,4 +47,4 @@ Header.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles()(Header);
+export default withStyles(styles)(Header);

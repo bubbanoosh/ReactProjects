@@ -36,7 +36,8 @@ export default (state = initialState, action) => {
 
             return {
                 ...state,
-                currentProducts: []
+                currentProducts: [],
+                averageCubicWeight: 0
             }
         case SET_CURRENT_PRODUCTS:
 

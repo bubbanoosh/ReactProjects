@@ -25,18 +25,18 @@ import WeightIcon from '../../assets/weight.png'
 const styles = theme => ({
     root: {
         flexGrow: 1,
-    },
-    paper: {
-        height: 140,
-        width: 100,
-    },
-    control: {
-        padding: theme.spacing.unit * 2,
+        padding: '1.5rem',
     },
     container: {
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'space-around',
+        overflow: 'hidden',
+        background: theme.palette.background.paper,
+    },
+    containerControl: {
+        display: 'flex',
+        flexWrap: 'wrap',
         overflow: 'hidden',
         background: theme.palette.background.paper,
     },
@@ -49,6 +49,9 @@ const styles = theme => ({
     },
     svgIcon: {
         color: grey[800],
+    },
+    button: {
+        margin: '1rem',
     },
 });
 
@@ -66,10 +69,10 @@ class CodingChallenge extends Component {
     render() {
         const { classes } = this.props;
         return (
-            <Grid container className={classes.root}>
+            <Grid container spacing="0" className={classes.root}>
                 {this.props.currentPageResponse.length > 0 && <Grid item xs={12}>
-                    <Grid container>
-                        <form className={classes.container} autoComplete="off">
+                    <Grid container className={classes.containerControl}>
+                        <form autoComplete="off">
                             <CategoryFilter
                                 currentPageResponse={this.props.currentPageResponse}
                                 selectedCategory={this.props.productCategory}
@@ -87,7 +90,9 @@ class CodingChallenge extends Component {
                     <Grid container>
                         <Grid item xs={12} sm={6}>
                             <Button
-                                raised className={classes.button}
+                                raised 
+                                color="primary"
+                                className={classes.button}
                                 onClick={this.onCalculateAverageWeightClick.bind(this)}>
                                 Calculate Avg Cubic Weight
                             </Button>

@@ -14,7 +14,7 @@ const theme = createMuiTheme({
     palette: {
         type: 'dark',
         primary: {
-            ...red, // Purple and green play nicely together.
+            ...red,
             A700: '#D50000',
         },
         secondary: {
@@ -25,13 +25,14 @@ const theme = createMuiTheme({
     },
     root: {
         width: '100%',
+        padding: '1.5rem'
     },
     flex: {
         flex: 1,
     },
     menuButton: {
         marginLeft: '1rem',
-        marginRight: 20,
+        marginRight: 200,
     },
 });
 
