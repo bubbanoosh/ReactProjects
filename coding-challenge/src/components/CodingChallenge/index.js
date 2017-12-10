@@ -6,7 +6,7 @@ import {
     setCurrentCategoryAndProducts,
     setCategoryList,
     calculateAverage
-} from '../../modules/products'
+} from '../../actions'
 
 import ProductList from './ProductList'
 import CategoryFilter from './CategoryFilter'
