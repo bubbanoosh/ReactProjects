@@ -2,10 +2,8 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import purple from 'material-ui/colors/purple';
-import green from 'material-ui/colors/green';
+import grey from 'material-ui/colors/grey';
 import red from 'material-ui/colors/red';
-import 'typeface-roboto'
 
 import Navigation from '../Common/Navigation'
 import Header from '../Common/Header'
@@ -14,20 +12,34 @@ import CodingChallenge from '../CodingChallenge'
 
 const theme = createMuiTheme({
     palette: {
-        primary: purple, // Purple and green play nicely together.
+        type: 'dark',
+        primary: {
+            ...red, // Purple and green play nicely together.
+            A700: '#D50000',
+        },
         secondary: {
-            ...green,
+            ...grey,
             A400: '#00e677',
         },
         error: red,
+    },
+    root: {
+        width: '100%',
+    },
+    flex: {
+        flex: 1,
+    },
+    menuButton: {
+        marginLeft: '1rem',
+        marginRight: 20,
     },
 });
 
 const App = () => (
     <MuiThemeProvider theme={theme}>
         <div>
-            <Navigation />
-            <Header />
+            <Navigation theme={theme} />
+            <Header theme={theme} />
 
             <main>
                 <Route exact path="/" component={Home} />
