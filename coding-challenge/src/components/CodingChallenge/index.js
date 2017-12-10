@@ -27,28 +27,14 @@ const styles = theme => ({
         flexGrow: 1,
         padding: '1.5rem',
     },
-    container: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        overflow: 'hidden',
-        background: theme.palette.background.paper,
-    },
     containerControl: {
         display: 'flex',
         flexWrap: 'wrap',
         overflow: 'hidden',
         background: theme.palette.background.paper,
     },
-    gridList: {
-        width: 500,
-        height: 450,
-    },
     chip: {
         margin: theme.spacing.unit * 2,
-    },
-    svgIcon: {
-        color: grey[800],
     },
     button: {
         margin: '1rem',
@@ -105,9 +91,6 @@ class CodingChallenge extends Component {
                                 }
                                 className={classes.chip}
                             />
-                            {/* {
-                                    <Typography type="headline">Average Weight: {this.props.averageCubicWeight}</Typography>
-                                } */}
                         </Grid>
                     </Grid>
                 </Grid>

@@ -9,17 +9,6 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 
 const styles = theme => ({
-    container: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      justifyContent: 'space-around',
-      overflow: 'hidden',
-      background: theme.palette.background.paper,
-    },
-    gridList: {
-      width: 500,
-      height: 450,
-    },
     navLink: {
         textDecoration: 'none',
     }

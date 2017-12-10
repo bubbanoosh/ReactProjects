@@ -15,20 +15,6 @@ const styles = theme => ({
     root: {
         padding: '1.5rem',
     },
-    container: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        overflow: 'hidden',
-        background: theme.palette.background.paper,
-    },
-    gridList: {
-        width: 500,
-        height: 450,
-    },
-    navLink: {
-        textDecoration: 'none',
-    },
     image: {
         width: '300px',
     },
