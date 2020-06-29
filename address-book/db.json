@@ -1,0 +1,30 @@
+{
+  "contacts": [
+    {
+      "firstName": "Errol",
+      "lastName": "Willenberg",
+      "address": "13 Norma Crescent",
+      "city": "Officer",
+      "region": "Vic",
+      "country": "Australia",
+      "postalCode": "3809",
+      "phone": "565656565",
+      "email": "e@bubbanoosh.com.au",
+      "age": "50",
+      "id": 1
+    },
+    {
+      "firstName": "Angela",
+      "lastName": "Brook",
+      "address": "67 Lae Rd",
+      "city": "Holsworthy",
+      "region": "NSW",
+      "country": "Australia",
+      "postalCode": "2173",
+      "phone": "0403444555",
+      "email": "genschiglass@gmail.com",
+      "age": "45",
+      "id": 2
+    }
+  ]
+}

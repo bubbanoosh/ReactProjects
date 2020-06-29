@@ -1,0 +1,19 @@
+Installation:
+------------------------------------
+npm i axios bootstrap formik react-bootstrap react-redux react-router-dom yup json-server
+
+
+Run the App
+------------------------------------
+set PORT=3001 && yarn start
+
+
+To start the back-end
+------------------------------------
+npm i json-server
+
+npx json-server --watch db.json
+
+
+
+
